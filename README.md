@@ -7,16 +7,18 @@
 ## 🚀 Project Overview
 Welcome to my technical portfolio. This repository serves as documented proof of my hands-on proficiency in enterprise IT support, bridging the gap between my formal Cybersecurity and Networking education and real-world Service Desk operations. 
 
-To demonstrate my readiness for IT Support roles, I engineered a comprehensive **Enterprise Home Lab**. This simulated hybrid environment allowed me to execute the daily responsibilities of a Service Desk Analyst, from resolving end-user incidents to managing identity lifecycles and enforcing endpoint security.
+To demonstrate my readiness for IT Support roles, I engineered a comprehensive **Enterprise Home Lab**. This simulated hybrid environment allowed me to execute the daily responsibilities of a Service Desk Analyst, from resolving end-user incidents to managing identity lifecycles, enforcing endpoint security, and automating OS deployments.
 
 ### 🛠️ Tech Stack & Tools Used
-* **Infrastructure:** Windows Server 2022, Windows 11 Pro, Oracle VirtualBox
+* **Infrastructure:** Windows Server 2022, Windows 11 Pro, Windows 10 Enterprise, Oracle VirtualBox
 * **Identity & Security:** Active Directory (AD DS), Group Policy (GPO), NTFS/RBAC
+* **Network Services:** DHCP, DNS, Windows Deployment Services (WDS), PXE Boot, TFTP
 * **ITSM & Ticketing:** Jira Service Management
 * **Endpoint Management:** Action1 RMM
 
 ### 🎯 Core Competencies Demonstrated
 * **Identity & Access Management (IAM):** Administering Active Directory user lifecycles, configuring account restrictions, and enforcing security policies.
+* **Automated OS Deployment:** Architecting PXE boot environments to deploy Windows operating systems over the network to bare-metal clients.
 * **IT Service Management (ITSM):** Managing the full ticket lifecycle, practicing First Call Resolution (FCR) methodologies, and enforcing SLAs.
 * **Remote Fleet Management:** Deploying third-party software, monitoring endpoint health, and managing patch compliance.
 * **Security & Compliance:** Architecting secure file shares, applying the Principle of Least Privilege, and enforcing Role-Based Access Control.
@@ -201,6 +203,36 @@ To demonstrate my readiness for IT Support roles, I engineered a comprehensive *
 
 ![AD Folder Fix](screenshots/ad-hr-folder-fix.png)
 *Figure 6: Verifying the technical resolution by restoring the HR security group to the folder's Access Control List.*
+
+---
+
+## 💿 Section 8: Automated Network OS Deployment (WDS)
+*Architecting a PXE Boot environment to automate bare-metal OS provisioning.*
+
+### 8.1 WDS Server Initialization & Image Management
+> *Configured the Windows Deployment Services role integrated with Active Directory. Successfully mounted the Windows 10 ISO, extracting and publishing both the `boot.wim` (Windows PE) and `install.wim` (OS payload) to the WDS console.*
+
+![WDS Console](screenshots/wds-console-images.png)
+
+### 8.2 Resolving UDP Port Conflicts (DHCP & WDS)
+> *Resolved UDP Port 67 conflicts between co-hosted DHCP and WDS roles by configuring WDS to yield the port and appending PXE-specific DHCP options to ensure proper client network routing.*
+
+![WDS DHCP Config](screenshots/wds-dhcp-conflict-fix.png)
+
+### 8.3 Advanced TFTP Troubleshooting
+> *Diagnosed and resolved TFTP packet fragmentation (Error Code 1460) by disabling Variable Window Extension and optimizing the Maximum Block Size to ensure reliable boot image delivery over the virtual network.*
+
+![TFTP Block Size](screenshots/wds-tftp-block-size.png)
+
+### 8.4 Client PXE Boot Execution
+> *Provisioned a bare-metal client utilizing a UEFI motherboard and an Intel PRO/1000 network adapter. The client successfully obtained an IP via DHCP, located the WDS server, and initiated the PXE network boot sequence.*
+
+![PXE Boot Screen](screenshots/wds-pxe-boot-screen.png)
+
+### 8.5 Successful OS Deployment
+> *The client seamlessly loaded the Windows Preinstallation Environment (WinPE) over the network, authenticated against Active Directory using Domain Admin credentials, and successfully initiated the automated Windows 10 installation.*
+
+![Windows Setup Network](screenshots/wds-windows-setup.png)
 
 ---
 
