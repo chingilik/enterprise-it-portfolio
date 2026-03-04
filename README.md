@@ -7,18 +7,19 @@
 ## 🚀 Project Overview
 Welcome to my technical portfolio. This repository serves as documented proof of my hands-on proficiency in enterprise IT support, bridging the gap between my formal Cybersecurity and Networking education and real-world Service Desk operations. 
 
-To demonstrate my readiness for IT Support roles, I engineered a comprehensive **Enterprise Home Lab**. This simulated hybrid environment allowed me to execute the daily responsibilities of a Service Desk Analyst, from resolving end-user incidents to managing identity lifecycles, enforcing endpoint security, automating OS deployments, and managing hybrid cloud identities within Microsoft 365 and Entra ID.
+To demonstrate my readiness for IT Support roles, I engineered a comprehensive **Enterprise Home Lab**. This simulated hybrid environment allowed me to execute the daily responsibilities of a Service Desk Analyst, from resolving end-user incidents to managing identity lifecycles, enforcing endpoint security, automating OS deployments, and managing hybrid cloud identities within Microsoft 365 and Exchange Online.
 
 ### 🛠️ Tech Stack & Tools Used
 * **Infrastructure:** Windows Server 2022, Windows 11 Pro, Windows 10 Enterprise, Oracle VirtualBox
-* **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Microsoft Entra ID (Azure AD), Entra Connect Sync
+* **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Microsoft Entra ID (Azure AD), Exchange Online
 * **Network Services:** DHCP, DNS, Windows Deployment Services (WDS), PXE Boot, TFTP
 * **ITSM & Ticketing:** Jira Service Management
 * **Endpoint Management:** Action1 RMM
 * **Security:** Group Policy (GPO), NTFS/RBAC, Principle of Least Privilege
 
 ### 🎯 Core Competencies Demonstrated
-* **Hybrid Cloud Identity:** Bridging on-premise Active Directory with Microsoft 365, syncing password hashes via Entra Connect, and provisioning M365 licenses and cloud-based resources.
+* **Exchange Online Administration:** Provisioning Shared Mailboxes, managing proxy addresses (aliases) via AD Attribute Editor, and executing Message Traces to troubleshoot mail flow.
+* **Hybrid Cloud Identity:** Bridging on-premise Active Directory with Microsoft 365 and syncing password hashes via Microsoft Entra Connect.
 * **Identity & Access Management (IAM):** Administering Active Directory user lifecycles, configuring account restrictions, and enforcing security policies.
 * **Automated OS Deployment:** Architecting PXE boot environments to deploy Windows operating systems over the network to bare-metal clients.
 * **IT Service Management (ITSM):** Managing the full ticket lifecycle, practicing First Call Resolution (FCR) methodologies, and enforcing SLAs.
@@ -238,23 +239,26 @@ To demonstrate my readiness for IT Support roles, I engineered a comprehensive *
 
 ---
 
-## ☁️ Section 9: Hybrid Cloud Identity & Entra ID Synchronization
-*Simulating a modern enterprise environment by bridging on-premise Active Directory with Microsoft 365 and Entra ID.*
+## ☁️ Section 9: Hybrid Cloud Identity & Exchange Online Administration
+*Simulating a modern enterprise environment by bridging on-premise Active Directory with Microsoft 365, Entra ID, and Exchange Online.*
 
-### 9.1 UPN Suffix Configuration
-> *Prepared the on-premise Active Directory for cloud synchronization by configuring Alternative UPN Suffixes in AD Domains and Trusts, ensuring local user accounts match the routing requirements of the Microsoft 365 tenant.*
-
-![AD UPN Configuration](screenshots/entra-ad-upn-config.png)
-
-### 9.2 Cloud Identity Synchronization (Entra Connect)
-> *Deployed Microsoft Entra Connect Sync to establish a secure bridge between the local AD DS forest and Microsoft Entra ID. Verified the successful replication of user identities and password hashes in the Microsoft 365 Admin Center, confirming the "Synced from on-premises" status.*
+### 9.1 Cloud Identity Synchronization (Entra Connect)
+> *Configured Alternative UPN Suffixes and deployed Microsoft Entra Connect Sync. Verified the successful replication of local user identities and password hashes into the Microsoft 365 Admin Center.*
 
 ![M365 Active Users Sync](screenshots/entra-m365-active-users.png)
 
-### 9.3 License Provisioning & Cloud Access Verification
-> *Provisioned a Microsoft 365 Business Premium license to the synced user. Verified end-to-end authentication and access to cloud resources by logging into the Microsoft 365 portal using the on-premise AD credentials and successfully testing Exchange Online mail flow.*
+### 9.2 Shared Mailbox Provisioning & Delegation
+> *Created an `IT Support` Shared Mailbox to simulate a zero-cost departmental email routing strategy. Granted the synced user 'Read and Manage' and 'Send As' delegation, verifying successful access via Outlook Web App (OWA).*
 
-![M365 Test Email](screenshots/entra-m365-test-email.png)
+![Shared Mailbox Outlook](screenshots/exchange-shared-mailbox.png)
+
+### 9.3 AD Attribute Management (Email Aliases)
+> *Utilized the Active Directory Attribute Editor to provision a secondary email alias. Manually configured the `proxyAddresses` attribute with a lowercase `smtp:` prefix, then executed `Start-ADSyncSyncCycle -PolicyType Delta` via PowerShell to force an immediate replication to the cloud.*
+
+### 9.4 Mail Flow Troubleshooting (Message Trace)
+> *Simulated an external mail delivery issue. Executed a Message Trace within the Exchange Admin Center to track inbound email traffic, verifying network routing success and identifying Microsoft 365 spam filter (EOP) handling.*
+
+![Message Trace](screenshots/exchange-message-trace.png)
 
 ---
 
