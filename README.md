@@ -7,16 +7,18 @@
 ## 🚀 Project Overview
 Welcome to my technical portfolio. This repository serves as documented proof of my hands-on proficiency in enterprise IT support, bridging the gap between my formal Cybersecurity and Networking education and real-world Service Desk operations. 
 
-To demonstrate my readiness for IT Support roles, I engineered a comprehensive **Enterprise Home Lab**. This simulated hybrid environment allowed me to execute the daily responsibilities of a Service Desk Analyst, from resolving end-user incidents to managing identity lifecycles, enforcing endpoint security, and automating OS deployments.
+To demonstrate my readiness for IT Support roles, I engineered a comprehensive **Enterprise Home Lab**. This simulated hybrid environment allowed me to execute the daily responsibilities of a Service Desk Analyst, from resolving end-user incidents to managing identity lifecycles, enforcing endpoint security, automating OS deployments, and managing hybrid cloud identities within Microsoft 365 and Entra ID.
 
 ### 🛠️ Tech Stack & Tools Used
 * **Infrastructure:** Windows Server 2022, Windows 11 Pro, Windows 10 Enterprise, Oracle VirtualBox
-* **Identity & Security:** Active Directory (AD DS), Group Policy (GPO), NTFS/RBAC
+* **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Microsoft Entra ID (Azure AD), Entra Connect Sync
 * **Network Services:** DHCP, DNS, Windows Deployment Services (WDS), PXE Boot, TFTP
 * **ITSM & Ticketing:** Jira Service Management
 * **Endpoint Management:** Action1 RMM
+* **Security:** Group Policy (GPO), NTFS/RBAC, Principle of Least Privilege
 
 ### 🎯 Core Competencies Demonstrated
+* **Hybrid Cloud Identity:** Bridging on-premise Active Directory with Microsoft 365, syncing password hashes via Entra Connect, and provisioning M365 licenses and cloud-based resources.
 * **Identity & Access Management (IAM):** Administering Active Directory user lifecycles, configuring account restrictions, and enforcing security policies.
 * **Automated OS Deployment:** Architecting PXE boot environments to deploy Windows operating systems over the network to bare-metal clients.
 * **IT Service Management (ITSM):** Managing the full ticket lifecycle, practicing First Call Resolution (FCR) methodologies, and enforcing SLAs.
@@ -233,6 +235,26 @@ To demonstrate my readiness for IT Support roles, I engineered a comprehensive *
 > *The client seamlessly loaded the Windows Preinstallation Environment (WinPE) over the network, authenticated against Active Directory using Domain Admin credentials, and successfully initiated the automated Windows 10 installation.*
 
 ![Windows Setup Network](screenshots/wds-windows-setup.png)
+
+---
+
+## ☁️ Section 9: Hybrid Cloud Identity & Entra ID Synchronization
+*Simulating a modern enterprise environment by bridging on-premise Active Directory with Microsoft 365 and Entra ID.*
+
+### 9.1 UPN Suffix Configuration
+> *Prepared the on-premise Active Directory for cloud synchronization by configuring Alternative UPN Suffixes in AD Domains and Trusts, ensuring local user accounts match the routing requirements of the Microsoft 365 tenant.*
+
+![AD UPN Configuration](screenshots/entra-ad-upn-config.png)
+
+### 9.2 Cloud Identity Synchronization (Entra Connect)
+> *Deployed Microsoft Entra Connect Sync to establish a secure bridge between the local AD DS forest and Microsoft Entra ID. Verified the successful replication of user identities and password hashes in the Microsoft 365 Admin Center, confirming the "Synced from on-premises" status.*
+
+![M365 Active Users Sync](screenshots/entra-m365-active-users.png)
+
+### 9.3 License Provisioning & Cloud Access Verification
+> *Provisioned a Microsoft 365 Business Premium license to the synced user. Verified end-to-end authentication and access to cloud resources by logging into the Microsoft 365 portal using the on-premise AD credentials and successfully testing Exchange Online mail flow.*
+
+![M365 Test Email](screenshots/entra-m365-test-email.png)
 
 ---
 
