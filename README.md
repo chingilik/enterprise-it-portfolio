@@ -135,26 +135,39 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
-## ☁️ Section 9: Hybrid Cloud & Exchange Online Administration
-*Simulating a modern enterprise environment by bridging on-premise Active Directory with Microsoft 365 and Entra ID.*
+---
+
+## ☁️ Section 9: Hybrid Cloud Identity & Exchange Online Administration
+*Bridging on-premise Active Directory with Microsoft 365 and Entra ID to simulate a modern enterprise environment.*
 
 ### 9.1 Cloud Identity Synchronization (Entra Connect)
 > Configured Alternative UPN Suffixes and deployed **Microsoft Entra Connect Sync**. Verified the successful replication of local user identities and password hashes into the Microsoft 365 Admin Center.
 
 ![M365 Active Users Sync](screenshots/entra-m365-active-users.png)
 
-### 9.2 Exchange Online Service Requests (Fulfillment)
-> **Scenario A: Shared Mailbox Provisioning & Delegation** > Created an `IT Support` Shared Mailbox to simulate a departmental email strategy. Granted "Read and Manage" and "Send As" permissions to synced users, verifying access via Outlook Web App (OWA).
+### 9.2 Service Request Fulfillment: Identity & Security
+> **MFA Reset & Authentication Management**
+> Fulfilled a high-priority request for a user locked out of their account. Navigated the Microsoft Entra ID "Authentication Methods" pane to require re-registration of Multi-Factor Authentication (MFA), ensuring secure identity verification.
 
-> **Scenario B: AD Attribute Management (Email Aliases)** > Utilized the **AD Attribute Editor** to provision secondary email aliases. Manually configured the `proxyAddresses` attribute with the `smtp:` prefix and forced cloud replication via PowerShell (`Start-ADSyncSyncCycle`).
+![MFA Reset](screenshots/ticket-mfa-reset.png)
 
-### 9.3 Microsoft 365 Ticket Lifecycle (Simulated Incidents)
-> Demonstrated proficiency in resolving high-frequency M365 support requests:
+### 9.3 Lifecycle Management: Employee Offboarding
+> **User Deactivation & Mailbox Conversion**
+> Executed a standard offboarding workflow for a departing employee (Neil Nepu). This involved blocking sign-in to secure the account and converting the user mailbox to a **Shared Mailbox** to preserve data integrity while reclaiming the Microsoft 365 license.
 
-* **Identity Security:** Performed **Multi-Factor Authentication (MFA)** resets for users locked out of their accounts, ensuring secure re-enrollment.
-* **Employee Offboarding:** Executed standard offboarding procedures by converting departing employee mailboxes to **Shared Mailboxes** to preserve data while reclaiming M365 licenses.
-* **Data Recovery:** Fulfilled requests for file restoration by navigating the **OneDrive Second-Stage Recycle Bin** to recover items deleted beyond the standard retention period.
-* **Mail Flow Troubleshooting:** Executed a **Message Trace** within the Exchange Admin Center (EAC) to track inbound external mail, diagnosing delivery delays and EOP (Spam Filter) handling.
+![Sign-in Blocked](screenshots/Off-boarding-neil.png)
+![Mailbox Converted](screenshots/ticket-offboarding.png)
+![Shared Mailbox Config](screenshots/off-boarding-neil-shared-mail.png)
+
+### 9.4 Data Recovery & Compliance
+> **OneDrive Second-Stage Recovery**
+> Demonstrated technical proficiency in SharePoint/OneDrive architecture by accessing the **Second-Stage Recycle Bin**. This allows for the recovery of critical business data even after a user has emptied their primary recycle bin, mitigating accidental or malicious data loss.
+
+![OneDrive Recovery](screenshots/ticket-onedrive-recovery.png)
+
+### 9.5 Mail Flow Troubleshooting
+> **Message Trace Execution**
+> Utilized the Exchange Admin Center (EAC) to perform a Message Trace, diagnosing mail delivery success and identifying EOP (Exchange Online Protection) filtering actions for external inbound traffic.
 
 ![Message Trace](screenshots/exchange-message-trace.png)
 
