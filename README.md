@@ -135,6 +135,31 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
+## ☁️ Section 9: Hybrid Cloud & Exchange Online Administration
+*Simulating a modern enterprise environment by bridging on-premise Active Directory with Microsoft 365 and Entra ID.*
+
+### 9.1 Cloud Identity Synchronization (Entra Connect)
+> Configured Alternative UPN Suffixes and deployed **Microsoft Entra Connect Sync**. Verified the successful replication of local user identities and password hashes into the Microsoft 365 Admin Center.
+
+![M365 Active Users Sync](screenshots/entra-m365-active-users.png)
+
+### 9.2 Exchange Online Service Requests (Fulfillment)
+> **Scenario A: Shared Mailbox Provisioning & Delegation** > Created an `IT Support` Shared Mailbox to simulate a departmental email strategy. Granted "Read and Manage" and "Send As" permissions to synced users, verifying access via Outlook Web App (OWA).
+
+> **Scenario B: AD Attribute Management (Email Aliases)** > Utilized the **AD Attribute Editor** to provision secondary email aliases. Manually configured the `proxyAddresses` attribute with the `smtp:` prefix and forced cloud replication via PowerShell (`Start-ADSyncSyncCycle`).
+
+### 9.3 Microsoft 365 Ticket Lifecycle (Simulated Incidents)
+> Demonstrated proficiency in resolving high-frequency M365 support requests:
+
+* **Identity Security:** Performed **Multi-Factor Authentication (MFA)** resets for users locked out of their accounts, ensuring secure re-enrollment.
+* **Employee Offboarding:** Executed standard offboarding procedures by converting departing employee mailboxes to **Shared Mailboxes** to preserve data while reclaiming M365 licenses.
+* **Data Recovery:** Fulfilled requests for file restoration by navigating the **OneDrive Second-Stage Recycle Bin** to recover items deleted beyond the standard retention period.
+* **Mail Flow Troubleshooting:** Executed a **Message Trace** within the Exchange Admin Center (EAC) to track inbound external mail, diagnosing delivery delays and EOP (Spam Filter) handling.
+
+![Message Trace](screenshots/exchange-message-trace.png)
+
+---
+
 ## 📜 Education & Certifications
 
 * **CompTIA Security+** | Certified Jan 2026
