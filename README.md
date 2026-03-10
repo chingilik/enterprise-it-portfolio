@@ -17,7 +17,7 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 * **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Microsoft Entra ID, Exchange Online
 * **Networking:** DHCP, DNS, Windows Deployment Services (WDS), PXE Boot, TFTP
 * **ITSM & RMM:** Jira Service Management, Action1 RMM
-* **Security:** Group Policy (GPO), NTFS/RBAC, Principle of Least Privilege (PoLP)
+* **Security:** Group Policy (GPO), NTFS/RBAC, Principle of Least Privilege (PoLP), PowerShell Automation
 
 ---
 
@@ -53,14 +53,30 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 *Demonstrating user lifecycle management and organizational structure.*
 
 ### 2.1 OU Design & User Provisioning
-> Designed a hierarchical OU structure (Admins, Users, Service Accounts). Provisioned accounts with standardized naming conventions and enforced **Account Expiry/Logon Hour** restrictions.
+> Designed a hierarchical OU structure (Admins, Users, Service Accounts). Provisioned accounts manually with standardized naming conventions and enforced **Account Expiry/Logon Hour** restrictions.
 
 ![Active Directory OU Structure](screenshots/ad-ou-structure.png)
 ![Account Restrictions](screenshots/ad-account-expiry.png)
 
 ---
 
-## 🗄️ Section 3: File Server & RBAC
+## ⚡ Section 3: Scripting & Automation (PowerShell)
+*Eliminating manual data entry and optimizing the HR-to-IT onboarding pipeline through scripting.*
+
+### 3.1 Bulk Identity Provisioning
+> Engineered a **PowerShell automation script** (`Import-Csv`, `New-ADUser`) to ingest standardized HR onboarding spreadsheets and automatically provision Active Directory accounts en masse. 
+
+### 3.2 Standardization & Security Enforcement
+> The script dynamically generates standardized `SamAccountNames` (FirstInitial + LastName), populates organizational attributes (Department, Title), and enforces strict security baselines by setting a complex temporary password and triggering the `-ChangePasswordAtLogon $true` flag to ensure Zero Trust compliance upon initial user sign-in.
+
+### 3.3 Business Impact
+> **Process Improvement:** Reduced standard new-hire provisioning time from ~5 minutes per user manually to under 2 seconds for a bulk batch, completely eliminating Helpdesk typos and localized human error during the identity lifecycle phase.
+
+![PowerShell AD Automation](screenshots/powershell-ad-automation.png)
+
+---
+
+## 🗄️ Section 4: File Server & RBAC
 *Implementing Role-Based Access Control and secure data segregation.*
 
 * **Security Groups:** Managed access via groups (e.g., `IT_Access`, `HR_Access`) rather than individual users to ensure scalability.
@@ -71,7 +87,7 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
-## ⚙️ Section 4: Group Policy & Hardening
+## ⚙️ Section 5: Group Policy & Hardening
 *Automating security protocols across the domain.*
 
 * **Password Policy:** Enforced 12-character minimums and 90-day rotations.
@@ -83,7 +99,7 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
-## ☁️ Section 5: Modern Fleet Management (Action1 RMM)
+## ☁️ Section 6: Modern Fleet Management (Action1 RMM)
 *Cloud-based vulnerability remediation and patch management.*
 
 * **AD Connector:** Synced on-premise assets to the cloud for real-time visibility.
@@ -95,13 +111,13 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
-## 🎫 Section 6: ITSM (Jira Service Management)
+## 🎫 Section 7: ITSM (Jira Service Management)
 *Managing the ticket lifecycle and meeting Service Level Agreements (SLAs).*
 
-### 6.1 SLA Engineering & Triage
+### 7.1 SLA Engineering & Triage
 > Engineered custom SLAs: **15m Time to First Response** and **2h Resolution**. Used **JQL** (Jira Query Language) to prioritize critical incidents.
 
-### 6.2 Incident Management Case Study
+### 7.2 Incident Management Case Study
 * **Issue:** HR Department lost access to a critical shared drive.
 * **Root Cause:** Security Group was accidentally stripped from the folder's ACL.
 * **Resolution:** Restored RBAC permissions, verified inheritance, and documented the fix in Jira Internal Notes for knowledge base (KB) creation.
@@ -111,7 +127,7 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
-## 💿 Section 7: Automated OS Deployment (WDS)
+## 💿 Section 8: Automated OS Deployment (WDS)
 *Architecting a PXE Boot environment for bare-metal provisioning.*
 
 * **Image Management:** Extracted and published `boot.wim` and `install.wim` images.
@@ -123,21 +139,21 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
-## ☁️ Section 8: Hybrid Cloud Identity & Exchange Online Administration
+## ☁️ Section 9: Hybrid Cloud Identity & Exchange Online Administration
 *Bridging on-premise Active Directory with Microsoft 365 and Entra ID to simulate a modern enterprise environment.*
 
-### 8.1 Cloud Identity Synchronization (Entra Connect)
+### 9.1 Cloud Identity Synchronization (Entra Connect)
 > Configured Alternative UPN Suffixes and deployed **Microsoft Entra Connect Sync**. Verified the successful replication of local user identities and password hashes into the Microsoft 365 Admin Center.
 
 ![M365 Active Users Sync](screenshots/entra-m365-active-users.png)
 
-### 8.2 Service Request Fulfillment: Identity & Security
+### 9.2 Service Request Fulfillment: Identity & Security
 > **MFA Reset & Authentication Management**
 > Fulfilled a high-priority request for a user locked out of their account. Navigated the Microsoft Entra ID "Authentication Methods" pane to require re-registration of Multi-Factor Authentication (MFA), ensuring secure identity verification.
 
 ![MFA Reset](screenshots/ticket-mfa-reset.png)
 
-### 8.3 Lifecycle Management: Employee Offboarding
+### 9.3 Lifecycle Management: Employee Offboarding
 > **User Deactivation & Mailbox Conversion**
 > Executed a standard offboarding workflow for a departing employee (Neil Nepu). This involved blocking sign-in to secure the account and converting the user mailbox to a **Shared Mailbox** to preserve data integrity while reclaiming the Microsoft 365 license.
 
@@ -145,13 +161,13 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 ![Mailbox Converted](screenshots/ticket-offboarding.png)
 ![Shared Mailbox Config](screenshots/off-boarding-neil-shared-mail.png)
 
-### 8.4 Data Recovery & Compliance
+### 9.4 Data Recovery & Compliance
 > **OneDrive Second-Stage Recovery**
 > Demonstrated technical proficiency in SharePoint/OneDrive architecture by accessing the **Second-Stage Recycle Bin**. This allows for the recovery of critical business data even after a user has emptied their primary recycle bin, mitigating accidental or malicious data loss.
 
 ![OneDrive Recovery](screenshots/ticket-onedrive-recovery.png)
 
-### 8.5 Mail Flow Troubleshooting
+### 9.5 Mail Flow Troubleshooting
 > **Message Trace Execution**
 > Utilized the Exchange Admin Center (EAC) to perform a Message Trace, diagnosing mail delivery success and identifying EOP (Exchange Online Protection) filtering actions for external inbound traffic.
 
@@ -159,17 +175,17 @@ To demonstrate readiness for IT Support roles, I engineered a comprehensive **En
 
 ---
 
-## 💬 Section 9: ChatOps & Automation (Microsoft Teams Integration)
+## 💬 Section 10: ChatOps & Automation (Microsoft Teams Integration)
 *Optimizing team collaboration and end-user support via Jira-Teams Integration.*
 
-### 9.1 Real-Time Incident Notifications
+### 10.1 Real-Time Incident Notifications
 > Integrated **Jira Service Management with Microsoft Teams** channels to provide the IT team with instant visibility into high-priority incidents. This reduces "Mean Time to Acknowledge" (MTTA) by allowing technicians to view ticket details without leaving the chat interface.
 
-### 9.2 Conversational Ticketing
+### 10.2 Conversational Ticketing
 > Enabled the **Jira Cloud app for Teams**, allowing end-users to create, track, and comment on support tickets directly from a Teams chat.
 * **Impact:** Increased user adoption of the Service Desk and reduced "shadow IT" requests made via private DM.
 
-### 9.3 Agent Productivity (Assist)
+### 10.3 Agent Productivity (Assist)
 > Leveraged **Jira Assist** within Teams to allow agents to transition chat conversations directly into formal tickets with a single click, ensuring all support interactions are captured for SLA reporting and KB documentation.
 
 ![Jira Teams Integration](screenshots/jira-teams-integration.png)
