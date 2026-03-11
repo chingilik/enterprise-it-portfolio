@@ -1,211 +1,275 @@
 # 🛡️ IT Support Enterprise Lab Portfolio
 
-**Administrator:** John Belita  
-**Location:** Calgary, AB | **Email:** johnalbertbelita@gmail.com  
-**Certifications:** CompTIA Security+ (2026)
+**Administrator:** John Belita
+**Location:** Calgary, AB | **Email:** johnalbertbelita@gmail.com
 
 ---
 
 ## 🚀 Project Overview
 
-Welcome to my technical portfolio. This repository serves as documented proof of my hands-on proficiency in enterprise IT support, bridging the gap between my formal Cybersecurity education and real-world Service Desk operations.
+Welcome to my technical portfolio. This repository serves as documented proof of my hands-on proficiency in enterprise IT support, bridging the gap between my formal Cybersecurity and Networking education and real-world Service Desk operations.
 
-To demonstrate readiness for modern IT roles, I engineered a comprehensive **Enterprise Home Lab**. This hybrid environment simulates the daily responsibilities of a Service Desk Analyst: from resolving complex end-user incidents and managing identity lifecycles (IAM) to enforcing endpoint security and administering hybrid cloud identities across **Microsoft 365**, **Intune**, and **Google Workspace**.
+To demonstrate my readiness for IT Support roles, I engineered a comprehensive **Enterprise Home Lab**. This simulated hybrid environment allowed me to execute the daily responsibilities of a Service Desk Analyst, from resolving end-user incidents to managing identity lifecycles, enforcing endpoint security, automating OS deployments, and provisioning cloud email in Microsoft 365.
 
-### 🛠️ Tech Stack & Tools
-* **Infrastructure:** Windows Server 2022, Windows 11 Pro, Oracle VirtualBox
-* **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Google Workspace, Microsoft Entra ID
-* **Endpoint Management:** Microsoft Intune (MDM), Action1 RMM, WDS (PXE Boot)
-* **Network & Security:** DHCP, DNS, MX/SPF/DMARC, Group Policy (GPO), NTFS/RBAC
-* **ITSM & Automation:** Jira Service Management, Microsoft Teams ChatOps, PowerShell
+### 🛠️ Tech Stack & Tools Used
+
+* **Infrastructure:** Windows Server 2022, Windows 11 Pro, Windows 10 Enterprise, Oracle VirtualBox
+* **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Microsoft Entra ID (Azure AD), Entra Connect Sync
+* **Network Services:** DHCP, DNS, Windows Deployment Services (WDS), PXE Boot, TFTP
+* **ITSM & Ticketing:** Jira Service Management
+* **Endpoint Management:** Action1 RMM, Microsoft Intune
+* **Security:** Group Policy (GPO), NTFS/RBAC, Principle of Least Privilege
+
+### 🎯 Core Competencies Demonstrated
+
+* **Hybrid Cloud Identity:** Bridging on-premise Active Directory with Microsoft 365, syncing password hashes via Entra Connect, and provisioning Exchange Online mailboxes.
+* **Identity & Access Management (IAM):** Administering local Active Directory user lifecycles, configuring account restrictions, and enforcing security policies.
+* **Automated OS Deployment:** Architecting PXE boot environments to deploy Windows operating systems over the network to bare-metal clients.
+* **IT Service Management (ITSM):** Managing the full ticket lifecycle, practicing First Call Resolution (FCR) methodologies, and engineering SLAs.
+* **Remote Fleet Management:** Deploying third-party software, monitoring endpoint health, and managing patch compliance remotely.
+* **Security & Compliance:** Architecting secure file shares, applying the Principle of Least Privilege, and enforcing Role-Based Access Control.
 
 ---
 
 ## 🏗️ Section 0: Infrastructure Implementation
+
 *Building the foundational server environment and promoting the Domain Controller.*
 
-### 0.1 Virtual Machine & Network Config
-> Provisioned Windows Server 2022 (2 vCPU, 8GB RAM). Configured a **Static IP (10.0.0.10)** and established secure Shared Folders to simulate mapped network drives.
+### 0.1 Virtual Machine Configuration
+> *Provisioned a Windows Server 2022 VM with optimized resource allocation (2 vCPU, 8GB RAM) and installed Guest Additions for improved host-to-guest integration.*
 
-![VM Resource Config](screenshots/vm-config-resources.png)
-![Static IP Setup](screenshots/server-static-ip.png)
+### 0.2 Network Configuration & Shared Storage
+> *Configured a static IP (10.0.0.10) for the server and established a secure Shared Folder path to simulate a mapped network drive for file transfer.*
 
-### 0.2 Domain Controller Promotion (YYC-DC-01)
-> Promoted the server to a Domain Controller, establishing the forest root `belita.com`. Verified successful deployment via **Active Directory Users and Computers (ADUC)**.
+### 0.3 Domain Controller Promotion
+> *Promoted the server to a Domain Controller (YYC-DC-01) by installing AD DS roles and creating a new forest root domain (belita.com).*
 
-![AD DS Promotion](screenshots/server-promotion-ad.png)
-![AD Verification](screenshots/ad-deployment-verified.png)
+### 0.4 Verification
+> *Verified successful deployment of Active Directory Users and Computers (ADUC).*
 
 ---
 
 ## 💻 Section 1: Client Workstation Deployment
-*Joining a Windows 11 Pro endpoint to the corporate domain.*
 
-* **DNS Alignment:** Manually pointed Client DNS to the Domain Controller (10.0.0.10) to ensure proper SRV record resolution.
-* **Domain Join:** Successfully authenticated and joined the `belita.com` domain.
+*Configuring and joining a Windows 11 endpoint to the corporate domain.*
 
-![Client DNS](screenshots/client-dns-config.png)
-![Domain Join](screenshots/client-domain-join.png)
+### 1.1 OS Installation & Selection
+> *Selected Windows 11 Pro to ensure domain-joining capabilities, as Windows 11 Home does not support Active Directory integration.*
 
----
+### 1.2 DNS Configuration
+> *Configured the Windows 11 Client DNS settings to point directly to the Domain Controller (10.0.0.10), ensuring successful name resolution for the belita.com domain.*
 
-## 📂 Section 2: Identity & Access Management (IAM)
-*Demonstrating user lifecycle management and organizational structure.*
-
-### 2.1 OU Design & User Provisioning
-> Designed a hierarchical OU structure (Admins, Users, Service Accounts). Provisioned accounts manually with standardized naming conventions and enforced **Account Expiry/Logon Hour** restrictions.
-
-![Active Directory OU Structure](screenshots/ad-ou-structure.png)
-![Account Restrictions](screenshots/ad-account-expiry.png)
+### 1.3 Domain Join
+> *Successfully joined the Windows 11 client to the 'belita.com' Active Directory domain using administrative credentials.*
 
 ---
 
-## ⚡ Section 3: Scripting & Automation (PowerShell)
-*Eliminating manual data entry and optimizing the HR-to-IT onboarding pipeline.*
+## 📂 Section 2: Identity & Access Management (Active Directory)
 
-### 3.1 Bulk Identity Provisioning
-> Engineered a **PowerShell automation script** (`Import-Csv`, `New-ADUser`) to ingest standardized HR onboarding spreadsheets and automatically provision Active Directory accounts en masse.
+*Demonstrating core competency in user lifecycle management, security groups, and organizational structure.*
 
-### 3.2 Standardization & Security Enforcement
-> The script dynamically generates standardized `SamAccountNames` (FirstInitial + LastName) and enforces security baselines by setting complex temporary passwords and triggering the `-ChangePasswordAtLogon $true` flag for Zero Trust compliance.
+### 2.1 Organizational Unit (OU) Design
+> *Designed a hierarchical OU structure to separate 'Admin' accounts from 'Standard Users' and 'Service Accounts,' ensuring granular policy application.*
 
-### 3.3 Business Impact
-> **Process Improvement:** Reduced standard new-hire provisioning time from ~5 minutes per user manually to under 2 seconds for a bulk batch, completely eliminating Helpdesk typos and localized human error.
+### 2.2 Advanced User Provisioning
+> *Provisioned new user accounts (e.g., Neil Nepu) with standard naming conventions and configured strict Logon Hours/Account Expiry to enhance security.*
 
-![PowerShell AD Automation](screenshots/powershell-ad-automation.png)
-
----
-
-## 🗄️ Section 4: File Server & RBAC
-*Implementing Role-Based Access Control and secure data segregation.*
-
-* **Security Groups:** Managed access via groups (e.g., `IT_Access`, `HR_Access`) rather than individual users to ensure scalability.
-* **Validation:** Confirmed "Access Denied" triggers for unauthorized users to verify NTFS permission inheritance.
-
-![NTFS Permissions](screenshots/fs-ntfs-permissions.png)
-![Access Denied](screenshots/fs-access-denied.png)
+### 2.3 End-to-End Verification
+> *Verified end-to-end connectivity by logging into the client workstation using the provisioned Active Directory user account.*
 
 ---
 
-## ⚙️ Section 5: Group Policy & Hardening
-*Automating security protocols across the domain.*
+## 🗄️ Section 3: File Server & Storage Management
 
-* **Password Policy:** Enforced 12-character minimums and 90-day rotations.
-* **Account Lockout:** Configured a 3-attempt threshold to mitigate brute-force risks.
-* **Validation:** Verified the "Account Locked" message on the client-side after failed attempts.
+*Implementing Role-Based Access Control (RBAC) and secure file sharing.*
 
-![Password Policy](screenshots/gpo-password-policy.png)
-![Account Locked Message](screenshots/client-locked-out-msg.png)
+### 3.1 File Share Hierarchy
+> *Designed a structured file share hierarchy (HR, IT, Data) to segregate sensitive departmental data from public common areas.*
 
----
+### 3.2 NTFS Permissions & RBAC
+> *Configured strict NTFS permissions using Security Groups (e.g., 'IT_Access') rather than individual users, ensuring scalable access management.*
 
-## ☁️ Section 6: Modern Fleet Management (Action1 RMM)
-*Cloud-based vulnerability remediation and patch management.*
-
-* **AD Connector:** Synced on-premise assets to the cloud for real-time visibility.
-* **Patch Management:** Identified critical **CVEs** and executed automated remediation workflows.
-* **Software Deployment:** Silently deployed 3rd-party apps (7-Zip) via RMM.
-
-![CVE List](screenshots/action1-cve-list.png)
-![Patch Remediation](screenshots/action1-patch-remediation.png)
+### 3.3 Permission Validation
+> *Validated permission inheritance by confirming 'Access Denied' restrictions when unauthorized users attempted to access restricted folders.*
 
 ---
 
-## 🎫 Section 7: ITSM & ChatOps (Jira + Teams)
-*Managing the ticket lifecycle and reducing MTTA via chat integration.*
+## ⚙️ Section 4: Group Policy & Security Hardening
 
-### 7.1 SLA Engineering & Triage
-> Engineered custom SLAs (15m Response / 2h Resolution). Used **JQL** (Jira Query Language) to prioritize critical incidents.
+*Showcasing the ability to automate configuration and enforce security protocols.*
 
-![Jira Queue](screenshots/jira-queue-view.png)
-![Jira Incident Resolved](screenshots/jira-incident-resolved.png)
+### 4.1 Password & Lockout Policies
+> *Enforced a strict Password Policy (12-char min, 90-day rotation) and Account Lockout Policy (3 attempts) to mitigate brute-force attacks.*
 
-### 7.2 Microsoft Teams Integration (Process Improvement)
-> Integrated **Jira with Microsoft Teams** to allow end-users to convert chat messages directly into tickets. IT Agents receive automated webhook notifications for High Priority issues in a dedicated Teams channel.
-
-![Jira Teams Integration](screenshots/jira-teams-integration.png)
-![Teams Ticket Creation](screenshots/teams-ticket-creation.png)
+### 4.2 Security Validation (Simulated Attack)
+> *Simulated a brute-force attempt and verified that the account was successfully locked out, preventing unauthorized access. Also verified Logon Hour restrictions.*
 
 ---
 
-## 💿 Section 8: Automated OS Deployment (WDS)
-*Architecting a PXE Boot environment for bare-metal provisioning.*
+## ☁️ Section 5: Cloud RMM & Patch Management (Action1)
 
-* **Image Management:** Extracted and published `boot.wim` and `install.wim` images.
-* **Troubleshooting:** Resolved **UDP Port 67** conflicts with DHCP and optimized **TFTP Block Size** to fix packet fragmentation (Error 1460).
-* **Execution:** Successfully deployed Windows 10 to a bare-metal client via network boot.
+*Demonstrating modern, cloud-based fleet management and vulnerability remediation.*
 
-![TFTP Block Size](screenshots/wds-tftp-block-size.png)
-![PXE Boot Screen](screenshots/wds-pxe-boot-screen.png)
+### 5.1 Hybrid Integration (Active Directory Connector)
+> *Configured the Action1 AD Connector to automatically discover and sync on-premise assets with the cloud platform, ensuring real-time fleet visibility.*
+
+### 5.2 Vulnerability Management & Patching
+> *Performed automated vulnerability assessments to identify critical CVEs and executed patch remediation workflows to secure the environment.*
+
+### 5.3 Automated Software Deployment
+> *Leveraged the Action1 App Store to deploy certified third-party applications (7-Zip) to client endpoints without manual intervention.*
 
 ---
 
-## ☁️ Section 9: Hybrid Cloud Identity (Entra ID)
-*Bridging on-premise Active Directory with Microsoft 365.*
+## 📡 Section 6: Remote Administration
+
+*Utilizing built-in Windows tools for remote troubleshooting and management.*
+
+### 6.1 Administrative Shares (C$)
+> *Utilized administrative shares (C$) to remotely access and troubleshoot client file systems without interrupting the user's active session.*
+
+---
+
+## 🎫 Section 7: IT Service Management (Jira Service Management)
+
+*Proving the ability to manage the ticket lifecycle, SLAs, and user communication.*
+
+### 7.1 Identity Synchronization
+> *Synced on-premise Active Directory users to Jira Service Management, ensuring seamless authentication and customer profile management.*
+
+### 7.2 Ticket Triage & Queue Management
+> *Managed the IT Service Desk queue, prioritizing high-impact incidents and using Internal Notes to track investigation steps.*
+
+### 7.3 Service Level Agreement (SLA) Engineering
+> *Engineered custom SLA metrics for "Time to First Response" (15m) and "Time to Resolution" (2h). Utilized Jira Query Language (JQL) to write specific conditions (`priority in (High, Highest)`) to ensure critical incidents automatically trigger accelerated support workflows.*
+
+### 7.4 Service Request Fulfillment
+> *Configured a self-service Customer Portal for software requests and fulfilled them using automated RMM workflows.*
+
+### 7.5 Incident Management (Break/Fix)
+> *Simulated and resolved a high-impact (Priority: Highest) business outage where the HR department lost access to a critical file share. Documented technical root causes in Internal Notes, while providing clear, jargon-free resolution updates to the non-technical end-users.*
+
+* **Simulated Incident:** "URGENT: HR Department cannot access the Confidential Shared Drive."
+* **Root Cause:** The `HR` Security Group was inadvertently removed from the folder's Access Control List (ACL) on the file server.
+* **Resolution:** Re-applied the correct Role-Based Access Control (RBAC) group to the folder, verified inheritance, and confirmed access with the end-users using non-technical customer service communication.
+
+![Jira Root Cause Analysis](screenshots/jira-internal-notes.png)
+*Figure 1: Documenting root cause analysis via Internal Notes and communicating the resolution to the end-user.*
+
+![RBAC Permission Restoration](screenshots/folder-rbac-restored.png)
+*Figure 2: Verifying the technical resolution by restoring the HR security group to the folder's Access Control List.*
+
+### 7.6 Microsoft 365 & Teams ITSM Integration (Process Improvement)
+> *Identified a friction point in end-user ticket submission and implemented a process improvement by integrating Jira Service Management directly into the corporate Microsoft 365 Teams environment.*
+
+* **The Problem:** End-users often bypass the IT portal and send direct messages to IT staff via Teams, resulting in untracked work and broken SLAs.
+* **The Solution:** Deployed the **Jira Cloud Enterprise App** into Microsoft 365 and pushed it to endpoints via Teams Admin Center policies.
+* **The Result:** End-users can now convert any Teams chat message directly into a formatted IT Service Desk ticket with two clicks. IT Agents receive automated webhook notifications in a dedicated Teams IT Channel whenever a High Priority ticket is created.
+
+![Teams Jira Integration](screenshots/teams-ticket-creation.png)
+*Figure 3: Successfully creating a trackable Jira Service Desk incident directly from an end-user's Microsoft Teams message.*
+
+---
+
+## 💿 Section 8: Automated Network OS Deployment (WDS)
+
+*Architecting a PXE Boot environment to automate bare-metal OS provisioning.*
+
+### 8.1 WDS Server Initialization & Image Management
+> *Configured the Windows Deployment Services role integrated with Active Directory. Successfully mounted the Windows 10 ISO, extracting and publishing both the `boot.wim` (Windows PE) and `install.wim` (OS payload) to the WDS console.*
+
+![WDS Console Management](screenshots/wds-console.png)
+
+### 8.2 Resolving UDP Port Conflicts (DHCP & WDS)
+> *Resolved UDP Port 67 conflicts between co-hosted DHCP and WDS roles by configuring WDS to yield the port and appending PXE-specific DHCP options to ensure proper client network routing.*
+
+### 8.3 Advanced TFTP Troubleshooting
+> *Diagnosed and resolved TFTP packet fragmentation (Error Code 1460) by disabling Variable Window Extension and optimizing the Maximum Block Size to ensure reliable boot image delivery over the virtual network.*
+
+### 8.4 Client PXE Boot Execution
+> *Provisioned a bare-metal client utilizing a UEFI motherboard and an Intel PRO/1000 network adapter. The client successfully obtained an IP via DHCP, located the WDS server, and initiated the PXE network boot sequence.*
+
+![PXE Boot Execution](screenshots/pxe-boot-ip.png)
+
+### 8.5 Successful OS Deployment
+> *The client seamlessly loaded the Windows Preinstallation Environment (WinPE) over the network, authenticated against Active Directory using Domain Admin credentials, and successfully initiated the automated Windows 10 installation.*
+
+---
+
+## ☁️ Section 9: Hybrid Cloud Identity & Exchange Online Administration
+
+*Simulating a modern enterprise environment by bridging on-premise Active Directory with Microsoft 365, Entra ID, and Exchange Online.*
 
 ### 9.1 Cloud Identity Synchronization (Entra Connect)
-> Deployed **Microsoft Entra Connect Sync**. Verified successful replication of local user identities and password hashes into the Microsoft 365 Admin Center.
+> *Configured Alternative UPN Suffixes and deployed Microsoft Entra Connect Sync. Verified the successful replication of local user identities and password hashes into the Microsoft 365 Admin Center.*
 
-![M365 Active Users Sync](screenshots/entra-m365-active-users.png)
+![Entra ID Sync Status](screenshots/entra-sync-status.png)
 
----
+### 9.2 Shared Mailbox Provisioning & Delegation
+> *Created an `IT Support` Shared Mailbox to simulate a zero-cost departmental email routing strategy. Granted the synced user 'Read and Manage' and 'Send As' delegation, verifying successful access via Outlook Web App (OWA).*
 
-## 🛠️ Section 10: Common Service Desk Requests (Troubleshooting)
-*Execution of frequent Tier 1 and Tier 2 tickets encountered in MSP environments.*
+### 9.3 AD Attribute Management (Email Aliases)
+> *Utilized the Active Directory Attribute Editor to provision a secondary email alias. Manually configured the `proxyAddresses` attribute with a lowercase `smtp:` prefix, then executed `Start-ADSyncSyncCycle -PolicyType Delta` via PowerShell to force an immediate replication to the cloud.*
 
-### 10.1 Ticket: MFA Reset (Entra ID)
-> Resolved a user lockout by navigating to Entra ID Authentication Methods, executing **Require re-register MFA**, and revoking active sessions to secure the account during device transition.
+### 9.4 Mail Flow Troubleshooting (Message Trace)
+> *Simulated an external mail delivery issue. Executed a Message Trace within the Exchange Admin Center to track inbound email traffic, verifying network routing success and identifying Microsoft 365 spam filter (EOP) handling.*
 
-### 10.2 Ticket: Secure Offboarding (Mailbox Conversion)
-> Disabled account in AD and forced a Delta Sync. Converted the user inbox to a **Shared Mailbox** to retain business data while reclaiming the paid license.
-
-### 10.3 Ticket: Data Recovery (OneDrive)
-> Recovered permanently deleted files by accessing the hidden **Second-Stage Recycle Bin** in the SharePoint site collection.
+![Exchange Message Trace](screenshots/exchange-message-trace.png)
 
 ---
 
-## ☁️ Section 11: Cloud SaaS Administration (Google Workspace)
-*Demonstrating platform-agnostic identity management and enforcing strict email security protocols.*
+## 🛠️ Section 10: Common Service Desk Requests (Troubleshooting & Admin)
 
-### 11.1 Tenant Provisioning & Email Security (SPF/DMARC)
-> Provisioned a **Google Workspace Business Standard** tenant via custom DNS routing (`belita.online`). Hardened mail flow by configuring strict **MX, SPF, and DMARC** records in Namecheap to prevent domain spoofing, aligning cloud infrastructure with CompTIA Security+ standards.
+*Documented execution of the most frequent Tier 1 and Tier 2 tickets encountered in a Managed Service Provider (MSP) environment.*
 
-### 11.2 User Lifecycle & Alias Management
-> Executed standardized user provisioning workflows for Neil Nepu. Managed organizational email routing by configuring secondary **Email Aliases** (`itdirector@belita.online`), providing flexible mail delivery without supplementary licensing costs.
+### 10.1 Ticket 1: The "New Phone" Lockout (Entra ID MFA Reset)
+* **Scenario:** A user purchased a new smartphone over the weekend and lost access to their Authenticator app, locking them out of all Microsoft 365 services.
+* **Resolution:** Instead of performing a standard password reset, I navigated to the Microsoft Entra Admin Center. Under the user's Authentication Methods, I executed **Require re-register MFA** to prompt a new QR code upon their next login, and utilized **Revoke MFA sessions** to kill any active tokens on their previous device.
 
-![GWS Email Alias Configuration](screenshots/gws-admin-console.png)
+### 10.2 Ticket 2: Secure Employee Offboarding & License Reclamation
+* **Scenario:** An employee was terminated. Management requested immediate revocation of access, retention of all historical emails, and the removal of the recurring $22/month Business Premium license.
+* **Resolution:** Disabled the user account in local Active Directory and forced a Delta Sync to immediately block cloud sign-in. Navigated to the Exchange Admin Center to convert the user's inbox to a **Shared Mailbox** (retaining all data for free). Finally, stripped the paid license and granted the manager 'Read and Manage' delegation over the newly converted shared mailbox.
 
-### 11.3 RBAC & Access Control
-> Engineered **Google Groups** (`execs@...`) to act as centralized security boundaries for Role-Based Access Control (RBAC). Administered organizational access policies and enforced restricted sharing permissions on sensitive data.
-
-![GWS Group Membership](screenshots/gws-admin-console-groups.png)
+### 10.3 Ticket 3: The "Accidental Deletion" (OneDrive Data Recovery)
+* **Scenario:** A user permanently deleted critical files from their OneDrive and emptied their standard Recycle Bin.
+* **Resolution:** Generated an administrative access link to bypass the user's standard permissions and enter their personal SharePoint Site Collection. Navigated to the hidden **Second-Stage Recycle Bin** to successfully recover the hard-deleted files within the Microsoft 93-day retention window.
 
 ---
 
-## 📱 Section 12: Modern Endpoint Management (Microsoft Intune / MDM)
-*Implementing Zero-Touch deployment and remote policy enforcement for a distributed workforce.*
+## 🎓 Section 11: Capstone - End-to-End Employee Onboarding Workflow
 
-### 12.1 MDM Enrollment & Entra ID Join
-> Orchestrated the transition from legacy Domain Join to **Microsoft Entra ID Join**. Successfully enrolled Windows 11 endpoints into **Microsoft Intune**, enabling over-the-air (OTA) management without requiring a VPN or local Domain Controller line-of-sight.
+*Executing a complete, enterprise-grade employee onboarding process by tying together ITSM, On-Premise Identity, Cloud Identity, SaaS Administration, and Endpoint Management into a single workflow.*
 
-### 12.2 Configuration Profiles & Compliance
-> Engineered and deployed **Configuration Profiles** to enforce enterprise security baselines, including automated screen-lock timers and alphanumeric password complexity, mapped directly to Zero Trust architecture principles.
+### 11.1 The Intake (Jira Service Management)
+> *Generated a New Employee Onboarding ticket in Jira for 'Jennifer Belita', tracking requirements for M365 licensing, RBAC file share access, and Windows 11 endpoint provisioning.*
 
-### 12.3 Remote Software Asset Management
-> Utilized Intune to architect a standardized software suite deployment (Microsoft 365 Apps), ensuring all remote assets remain compliant and equipped with necessary productivity tools automatically upon user sign-in.
+### 11.2 Identity Provisioning (Active Directory & PowerShell)
+> *Utilized a custom PowerShell automation script to ingest HR CSV data, automatically generating the `jbelita` Active Directory account, enforcing a secure temporary password, and requiring a password change at next logon. Assigned the user to the `Finance_Access` security group for strict RBAC.*
 
-![Intune Device Management](screenshots/intune-enrolled-devices.png)
-![Intune Policy Enforcement](screenshots/intune-policy-applied.png)
+### 11.3 Cloud Sync & SaaS Licensing (Entra ID & M365)
+> *Executed `Start-ADSyncSyncCycle -PolicyType Delta` via PowerShell to force an immediate Entra Connect sync. Navigated to the Microsoft 365 Admin Center to verify the hybrid identity and assigned a **Microsoft 365 Business Premium** license to provision an Exchange Online mailbox.*
+
+### 11.4 Endpoint Provisioning & Verification (Windows 11)
+> *Logged into the Intune-managed Windows 11 endpoint using the synced cloud credentials (`jbelita@belitalab.onmicrosoft.com`). Verified forced password reset, successful Single Sign-On (SSO) to Microsoft 365 services, and confirmed access to the restricted `\\10.0.0.10\Finance` local file share via inherited local Kerberos authentication.*
+
+### 11.5 Ticket Closure & Documentation
+> *Documented the completed onboarding pipeline within the Jira ticket's internal notes and resolved the incident, ensuring strict adherence to ITIL workflows and SLA tracking.*
+
+![Capstone End-to-End Proof](screenshots/capstone-onboarding.png)
+*Figure 4: Verifying the hybrid identity sync in the M365 Admin Center alongside the resolved Jira onboarding ticket.*
 
 ---
 
 ## 📜 Education & Certifications
 
-* **CompTIA Security+** | Certified Jan 2026
+* **CompTIA Security+** | Certified January 2026
 * **Diploma in Cybersecurity** | ABM College, Calgary, AB | Graduated May 2025
-* **Network Specialist Training** | SAIT, Calgary, AB | 2019
+* **Network Specialist Training** | SAIT, Calgary, AB | Completed 2019
 
 ---
 
 ## 📫 Contact
+
 **John Belita** | Calgary, AB | johnalbertbelita@gmail.com
+
+[⬆ Back to Top](https://github.com/chingilik/it-support-portfolio)
