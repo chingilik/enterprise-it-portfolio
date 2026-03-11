@@ -2,7 +2,6 @@
 
 **Administrator:** John Belita  
 **Location:** Calgary, AB | **Email:** johnalbertbelita@gmail.com  
-**Certifications:** CompTIA Security+ (2026)
 
 ---
 
@@ -24,37 +23,46 @@ To demonstrate readiness for modern Systems Administration and IT Support roles,
 ## 🏗️ Section 0: Infrastructure Implementation
 *Architecting the foundational server environment and promoting the Domain Controller.*
 
-### 0.1 Virtual Machine & Network Configuration
-Provisioned a Windows Server 2022 instance with optimized resource allocation. Configured a **Static IP (10.0.0.10)** to ensure reliable DNS resolution and established secure Shared Folders to simulate mapped corporate network drives.
+### 0.1 Virtual Machine & Host Configuration
+Provisioned a Windows Server 2022 instance with optimized resource allocation. Installed VirtualBox Guest Additions for bi-directional integration and established secure Shared Folders to simulate mapped corporate network drives.
 
 ![VM Resource Config](screenshots/vm-config-resources.png)
-***Figure 1: Virtual machine hardware and resource allocation.***
+![VM Guest Additions](screenshots/vm-guest-additions.png)
+![VM Shared Folder](screenshots/vm-shared-folder.png)
+***Figure 1: Virtual machine hardware, tools, and shared storage allocation.***
 
+### 0.2 Network Configuration & Server Identity
+Configured a **Static IP (10.0.0.10)** to ensure reliable DNS resolution for the domain and standardized the server hostname to align with enterprise naming conventions (`YYC-DC-01`).
+
+![Server Rename](screenshots/server-rename.png)
 ![Static IP Setup](screenshots/server-static-ip.png)
-***Figure 2: Assigning the static IPv4 configuration for the Domain Controller.***
+***Figure 2: Assigning the standardized hostname and static IPv4 configuration.***
 
-### 0.2 Domain Controller Promotion (YYC-DC-01)
+### 0.3 Domain Controller Promotion (YYC-DC-01)
 Promoted the server to a Domain Controller, establishing the forest root `belita.com`. Verified successful directory deployment via **Active Directory Users and Computers (ADUC)**.
 
 ![AD DS Promotion](screenshots/server-promotion-ad.png)
-***Figure 3: Active Directory Domain Services role installation.***
-
 ![AD Verification](screenshots/ad-deployment-verified.png)
-***Figure 4: Successful deployment of the belita.com Active Directory forest.***
+***Figure 3: Active Directory Domain Services role installation and verification.***
 
 ---
 
 ## 💻 Section 1: Client Workstation Deployment
 *Joining a Windows 11 Pro endpoint to the corporate domain network.*
 
-### 1.1 DNS Alignment & Domain Join
-Manually configured the Client DNS to point to the local Domain Controller (10.0.0.10) to ensure proper SRV record resolution. Successfully authenticated and joined the workstation to the `belita.com` domain.
+### 1.1 OS Installation & DNS Alignment
+Deployed Windows 11 Pro to ensure AD domain-joining capabilities. Manually configured the Client DNS to point to the local Domain Controller (10.0.0.10) to ensure proper SRV record resolution.
 
+![Windows 11 Install](screenshots/client-win11-install.png)
 ![Client DNS](screenshots/client-dns-config.png)
-***Figure 5: Aligning client DNS to the primary Domain Controller.***
+***Figure 4: Operating system selection and DNS alignment to the primary DC.***
+
+### 1.2 Domain Join Authentication
+Successfully authenticated and joined the workstation to the `belita.com` domain, verifying end-to-end connectivity.
 
 ![Domain Join](screenshots/client-domain-join.png)
-***Figure 6: Windows 11 endpoint successfully joined to the local domain.***
+![Client Login Success](screenshots/client-login-success.png)
+***Figure 5: Windows 11 endpoint successfully joined and authenticated to the local domain.***
 
 ---
 
@@ -65,13 +73,16 @@ Manually configured the Client DNS to point to the local Domain Controller (10.0
 Designed a hierarchical Organizational Unit (OU) structure to logically separate Admins, Users, and Service Accounts. Provisioned accounts utilizing standardized corporate naming conventions.
 
 ![Active Directory OU Structure](screenshots/ad-ou-structure.png)
-***Figure 7: Segmented OU architecture for granular policy application.***
+![AD User Neil](screenshots/ad-user-neil.png)
+***Figure 6: Segmented OU architecture and standard account provisioning.***
 
 ### 2.2 Security Restrictions
-Enforced strict **Account Expiry** and **Logon Hour** restrictions to mitigate the risk of unauthorized access outside of authorized business hours.
+Enforced strict **Account Expiry** and **Logon Hour** restrictions to mitigate the risk of unauthorized access outside of authorized business hours. Validated these policies on the client endpoint.
 
+![AD Logon Hours](screenshots/ad-logon-hours.png)
 ![Account Restrictions](screenshots/ad-account-expiry.png)
-***Figure 8: Enforcing time-based logon restrictions on a standard user account.***
+![Logon Denied Msg](screenshots/client-logon-denied-msg.png)
+***Figure 7: Enforcing time-based logon restrictions and validating the access denial.***
 
 ---
 
@@ -82,21 +93,26 @@ Enforced strict **Account Expiry** and **Logon Hour** restrictions to mitigate t
 Engineered a **PowerShell automation script** utilizing `Import-Csv` and `New-ADUser` to ingest standardized HR spreadsheets and dynamically provision Active Directory accounts en masse. The script dynamically generates `SamAccountNames` and enforces Zero Trust security baselines by setting complex temporary passwords and triggering the `-ChangePasswordAtLogon $true` parameter.
 
 ![PowerShell AD Automation](screenshots/powershell-ad-automation.png)
-***Figure 9: Executing the bulk onboarding script via PowerShell ISE.***
+***Figure 8: Executing the bulk onboarding script via PowerShell ISE.***
 
 ---
 
 ## 🗄️ Section 4: File Server & RBAC
 *Implementing Role-Based Access Control and secure data segregation.*
 
-### 4.1 Security Groups & Access Validation
-Managed file share access strictly via Security Groups (e.g., `IT_Access`, `HR_Access`) rather than individual users to ensure scalable management. Confirmed "Access Denied" triggers for unauthorized users to verify NTFS permission inheritance.
+### 4.1 Security Groups & File Share Hierarchy
+Designed a structured file share hierarchy and managed access strictly via Security Groups (e.g., `IT_Access`, `HR_Access`) rather than individual users to ensure scalable management. 
 
+![File Share Hierarchy](screenshots/fs-share-hierarchy.png)
+![RBAC Groups](screenshots/fs-rbac-groups.png)
 ![NTFS Permissions](screenshots/fs-ntfs-permissions.png)
-***Figure 10: Configuring NTFS permissions using explicit Security Groups.***
+***Figure 9: Designing the share directory, creating RBAC groups, and applying explicit NTFS permissions.***
+
+### 4.2 Access Validation
+Confirmed "Access Denied" triggers for unauthorized users to verify NTFS permission inheritance and least-privilege access.
 
 ![Access Denied](screenshots/fs-access-denied.png)
-***Figure 11: Verifying successful RBAC enforcement (Access Denied for unauthorized user).***
+***Figure 10: Verifying successful RBAC enforcement (Access Denied for unauthorized user).***
 
 ---
 
@@ -107,50 +123,93 @@ Managed file share access strictly via Security Groups (e.g., `IT_Access`, `HR_A
 Deployed domain-wide Group Policy Objects (GPOs) to enforce a strict 12-character minimum password policy with 90-day rotations. Configured a 3-attempt Account Lockout threshold to mitigate brute-force attacks.
 
 ![Password Policy](screenshots/gpo-password-policy.png)
-***Figure 12: Domain-wide password complexity and history requirements.***
+![Lockout Policy](screenshots/gpo-lockout-policy.png)
+***Figure 11: Domain-wide password complexity and account lockout thresholds.***
 
-### 5.2 Security Validation (Simulated Attack)
-Simulated a brute-force attempt against a user account and verified the "Account Locked" message on the client-side after failed attempts, confirming successful GPO enforcement.
+### 5.2 Security Validation & Account Recovery
+Simulated a brute-force attempt against a user account and verified the "Account Locked" message on the client-side. Executed standard IT procedures to unlock the account within Active Directory.
 
 ![Account Locked Message](screenshots/client-locked-out-msg.png)
-***Figure 13: Client-side validation of the Active Directory lockout policy.***
+![AD Unlock Verify](screenshots/ad-unlock-verify.png)
+![AD Unlock Account](screenshots/ad-unlock-account.png)
+***Figure 12: Client-side lockout validation followed by administrative account recovery in ADUC.***
 
 ---
 
 ## ☁️ Section 6: Modern Fleet Management (Action1 RMM)
-*Executing cloud-based vulnerability remediation and patch management.*
+*Executing cloud-based vulnerability remediation, automated deployments, and remote support.*
 
-### 6.1 Vulnerability Management & Patching
-Synced on-premise assets to the cloud via the Action1 RMM agent. Identified critical **CVEs** through automated vulnerability scans and executed patch remediation workflows to secure outdated endpoints.
+### 6.1 RMM Agent Deployment via GPO
+Hosted the Action1 agent installer in a centralized, read-only network share and utilized Group Policy to automatically push the management agent to all domain-joined endpoints.
+
+![Server Deploy Share](screenshots/server-deploy-share.png)
+![GPO Deploy Agent](screenshots/gpo-deploy-agent.png)
+![Client Agent Installed](screenshots/client-agent-installed.png)
+***Figure 13: Silent, automated deployment of the RMM management agent via Group Policy.***
+
+### 6.2 Hybrid AD Connector Integration
+Configured the Action1 Active Directory Connector to sync on-premise OUs and assets to the cloud, ensuring real-time fleet visibility in the centralized dashboard.
+
+![Action1 AD Connector](screenshots/action1-ad-connector-config.png)
+![Action1 Endpoints](screenshots/action1-endpoints-dashboard.png)
+***Figure 14: Bridging on-premise AD assets to the cloud RMM platform.***
+
+### 6.3 Vulnerability Management & Patching
+Identified critical **CVEs** and missing updates through automated vulnerability scans. Executed patch remediation workflows to secure outdated endpoints and generated compliance reports.
 
 ![CVE List](screenshots/action1-cve-list.png)
-***Figure 14: Action1 dashboard displaying critical missing updates and CVEs.***
-
+![Missing Updates](screenshots/action1-missing-updates.png)
 ![Patch Remediation](screenshots/action1-patch-remediation.png)
-***Figure 15: Successful execution of the automated Windows patch remediation workflow.***
+![Compliance Report](screenshots/action1-compliance-report.png)
+***Figure 15: Full patch lifecycle—from CVE discovery to automated deployment and compliance reporting.***
+
+### 6.4 Automated Software Deployment
+Silently deployed 3rd-party applications to client endpoints without manual intervention via the RMM App Store task automation.
+
+![Deploy 7Zip Task](screenshots/action1-deploy-7zip-task.png)
+![Client 7Zip Installed](screenshots/client-7zip-installed.png)
+***Figure 16: Zero-touch deployment of 7-Zip executing on the remote endpoint.***
+
+### 6.5 Remote Administration (C$ Shares)
+Utilized administrative network shares (C$) to remotely access and troubleshoot client file systems over the network without interrupting the end-user's active session.
+
+![Admin Share C Drive](screenshots/admin-share-c-drive.png)
+***Figure 17: Remote administrative access via hidden C$ pathways.***
 
 ---
 
 ## 🎫 Section 7: ITSM & ChatOps (Jira + Teams)
 *Managing the incident lifecycle and reducing MTTA (Mean Time To Acknowledge).*
 
-### 7.1 SLA Engineering & Triage
-Engineered custom Jira SLAs (15m Response / 2h Resolution). Utilized **JQL** (Jira Query Language) to properly prioritize critical incidents through the IT Service Desk queue.
+### 7.1 Customer Portal & AD Sync
+Deployed a customized Jira Customer Portal and synchronized Active Directory users into the ITSM database to track historical requests.
 
-![Jira Queue](screenshots/jira-queue-view.png)
-***Figure 16: Managing the active Jira Service Management incident queue.***
+![Jira Portal View](screenshots/jira-portal-view.png)
+![Jira Customers Sync](screenshots/jira-customers-sync.png)
+***Figure 18: End-user self-service portal and AD identity synchronization.***
 
-![Jira Incident Resolved](screenshots/jira-incident-resolved.png)
-***Figure 17: Successfully documenting and resolving an end-user ticket.***
+### 7.2 SLA Engineering & Ticket Triage
+Engineered custom Jira SLAs (15m Response / 2h Resolution). Utilized **JQL** to properly prioritize critical incidents, assigning tickets to appropriate queues and actively tracking SLA metrics.
 
-### 7.2 Microsoft Teams Integration (Process Improvement)
-Integrated **Jira with Microsoft Teams** via Webhooks, enabling end-users to generate IT tickets directly from chat messages. IT Agents receive automated alerts in a dedicated Teams channel for high-priority incidents.
+![Jira Queue View](screenshots/jira-queue-view.png)
+![Ticket Assignment](screenshots/jira-ticket-assignment.png)
+![SLA Triage](screenshots/jira-ticket-sla-triage.png)
+***Figure 19: Triaging the IT Service Desk queue and monitoring SLA countdowns.***
+
+### 7.3 Incident Resolution (Break/Fix)
+Documented technical root causes within Internal Notes while providing clear, jargon-free resolution updates to end-users for both Service Requests (software installs) and Incidents (broken file permissions).
+
+![Incident Resolved](screenshots/jira-ticket-incident-resolved.png)
+![HR Folder Fix](screenshots/ad-hr-folder-fix.png)
+![Request Resolved](screenshots/jira-ticket-request-resolved.png)
+***Figure 20: Restoring an accidentally deleted RBAC group and resolving the associated Jira tickets.***
+
+### 7.4 Microsoft Teams Integration
+Integrated **Jira with Microsoft Teams** via Webhooks, enabling end-users to generate IT tickets directly from chat messages. IT Agents receive automated alerts in a dedicated Teams channel.
 
 ![Jira Teams Integration](screenshots/jira-teams-integration.png)
-***Figure 18: Engineering the webhook integration between Teams and Jira.***
-
 ![Teams Ticket Creation](screenshots/teams-ticket-creation.png)
-***Figure 19: Seamless creation of a trackable Jira incident directly from MS Teams.***
+***Figure 21: Seamless creation of a trackable Jira incident directly from MS Teams.***
 
 ---
 
@@ -158,16 +217,19 @@ Integrated **Jira with Microsoft Teams** via Webhooks, enabling end-users to gen
 *Architecting a PXE Boot environment for bare-metal OS provisioning.*
 
 ### 8.1 Image Management & Troubleshooting
-Extracted and published `boot.wim` and `install.wim` images to the WDS Server. Resolved **UDP Port 67** conflicts with the co-hosted DHCP server and optimized the TFTP Block Size to fix packet fragmentation.
+Extracted and published `boot.wim` and `install.wim` images to the WDS Server. Resolved **UDP Port 67** conflicts with the co-hosted DHCP server and optimized the TFTP Maximum Block Size to fix packet fragmentation.
 
+![WDS Console Images](screenshots/wds-console-images.png)
+![WDS DHCP Conflict Fix](screenshots/wds-dhcp-conflict-fix.png)
 ![TFTP Block Size](screenshots/wds-tftp-block-size.png)
-***Figure 20: Tuning the TFTP Maximum Block Size registry key to resolve PXE boot errors.***
+***Figure 22: Provisioning WDS images and executing advanced network boot troubleshooting.***
 
 ### 8.2 PXE Boot Execution
-Successfully deployed a Windows 10 image to a bare-metal client via network boot.
+Successfully deployed a Windows 10 image to a bare-metal client via PXE network boot.
 
 ![PXE Boot Screen](screenshots/wds-pxe-boot-screen.png)
-***Figure 21: Bare-metal client successfully fetching the boot image over the network.***
+![Windows Setup](screenshots/wds-windows-setup.png)
+***Figure 23: Bare-metal client successfully fetching the boot image and launching Windows Setup.***
 
 ---
 
@@ -175,10 +237,18 @@ Successfully deployed a Windows 10 image to a bare-metal client via network boot
 *Bridging on-premise Active Directory with the Microsoft 365 Cloud.*
 
 ### 9.1 Entra Connect Synchronization
-Deployed **Microsoft Entra Connect Sync**. Verified the successful replication of local AD user identities and password hashes into the Microsoft 365 Admin Center, establishing a true hybrid environment.
+Configured alternative UPN suffixes and deployed **Microsoft Entra Connect Sync**. Verified the successful replication of local AD user identities and password hashes into the Microsoft 365 Admin Center.
 
+![Entra UPN Config](screenshots/entra-ad-upn-config.png)
 ![M365 Active Users Sync](screenshots/entra-m365-active-users.png)
-***Figure 22: On-premise Active Directory accounts successfully synced to Microsoft 365.***
+***Figure 24: Establishing UPNs and syncing on-premise Active Directory accounts to Microsoft 365.***
+
+### 9.2 Mail Flow & Message Tracing
+Tested successful cloud routing and utilized Exchange Admin Center Message Traces to investigate inbound/outbound mail flow health.
+
+![M365 Test Email](screenshots/entra-m365-test-email.png)
+![Message Trace](screenshots/exchange-message-trace.png)
+***Figure 25: Validating Exchange Online routing and auditing delivery via Message Trace.***
 
 ---
 
@@ -189,33 +259,42 @@ Deployed **Microsoft Entra Connect Sync**. Verified the successful replication o
 * **Scenario:** User lost access to their Authenticator app after replacing their mobile device. 
 * **Resolution:** Navigated to Entra ID Authentication Methods, executed **Require re-register MFA**, and revoked active sessions to secure the account during the device transition.
 
+![Entra ID MFA Reset Ticket](screenshots/ticket-mfa-reset.png)
+***Figure 26: Tracking the MFA Reset incident in the ITSM portal.***
+
 ### 10.2 Ticket 2: Secure Offboarding (Mailbox Conversion)
 * **Scenario:** Immediate termination of an employee requiring access revocation and data retention.
 * **Resolution:** Disabled the AD account, forced a Delta Sync, and converted the Exchange Online inbox to a **Shared Mailbox** to retain historical data while successfully reclaiming the paid M365 Business Premium license.
 
+![Offboarding Ticket](screenshots/ticket-offboarding.png)
+![AD Offboarding](screenshots/Off-boarding-neil.png)
+![Shared Mailbox Config](screenshots/off-boarding-neil-shared-mail.png)
+![Exchange Shared Mailbox](screenshots/exchange-shared-mailbox.png)
+***Figure 27: End-to-end employee offboarding workflow and data retention configuration.***
+
 ### 10.3 Ticket 3: Data Recovery (OneDrive)
-* **Scenario:** User permanently deleted files from their OneDrive and emptied the local Recycle Bin.
-* **Resolution:** Generated administrative access to the user's SharePoint Site Collection and successfully recovered the files from the hidden **Second-Stage Recycle Bin**.
+* **Scenario:** User permanently deleted critical files from their OneDrive and emptied the standard local Recycle Bin.
+* **Resolution:** Generated an administrative access link to the user's OneDrive environment and successfully recovered the hard-deleted files directly from the hidden **Second-Stage Recycle Bin**.
+
+![OneDrive Recovery Ticket](screenshots/ticket-onedrive-recovery.png)
+***Figure 28: Logging the successful data recovery process.***
 
 ---
 
 ## ☁️ Section 11: Cloud SaaS Administration (Google Workspace)
 *Demonstrating platform-agnostic administration and strict email security configuration.*
 
-### 11.1 Tenant Provisioning & Email Security (SPF/DMARC)
-Provisioned a **Google Workspace Business Standard** tenant. Hardened organizational mail flow by configuring strict **MX, SPF, and DMARC** DNS records to prevent domain spoofing and phishing.
-
-### 11.2 User Lifecycle & Alias Management
-Executed standardized user provisioning workflows. Managed organizational email routing by configuring secondary **Email Aliases** (`itdirector@belita.online`), providing flexible mail delivery without supplementary licensing costs.
+### 11.1 Tenant Provisioning & Alias Management
+Provisioned a Google Workspace tenant. Executed standardized user provisioning workflows and managed organizational email routing by configuring secondary **Email Aliases** (`itdirector@belita.online`), providing flexible mail delivery without supplementary licensing costs.
 
 ![GWS Email Alias Configuration](screenshots/gws-admin-console.png)
-***Figure 23: Managing Google Workspace users and organizational email aliases.***
+***Figure 29: Managing Google Workspace users and organizational email aliases.***
 
-### 11.3 RBAC & Access Control
+### 11.2 RBAC & Access Control
 Engineered **Google Groups** (`execs@...`) to act as centralized security boundaries for Role-Based Access Control (RBAC). Administered organizational access policies and enforced restricted sharing permissions on sensitive data.
 
 ![GWS Group Membership](screenshots/gws-admin-console-groups.png)
-***Figure 24: Utilizing Google Groups for department-level access control.***
+***Figure 30: Utilizing Google Groups for department-level access control.***
 
 ---
 
@@ -226,13 +305,13 @@ Engineered **Google Groups** (`execs@...`) to act as centralized security bounda
 Orchestrated the enrollment of Windows 11 endpoints into **Microsoft Intune** (Entra ID Joined), enabling over-the-air (OTA) management without requiring a VPN or local Domain Controller line-of-sight.
 
 ![Intune Device Management](screenshots/intune-enrolled-devices.png)
-***Figure 25: Windows endpoint successfully enrolled and managed via Microsoft Intune.***
+***Figure 31: Windows endpoint successfully enrolled and managed via Microsoft Intune.***
 
 ### 12.2 Configuration Profiles & Compliance
 Engineered and deployed **Configuration Profiles** to enforce enterprise security baselines, including automated screen-lock timers, Microsoft 365 app deployments, and alphanumeric password complexity.
 
 ![Intune Policy Enforcement](screenshots/intune-policy-applied.png)
-***Figure 26: Intune successfully pushing configuration profiles to the client device.***
+***Figure 32: Intune successfully pushing configuration profiles to the client device.***
 
 ---
 
@@ -248,7 +327,7 @@ Engineered and deployed **Configuration Profiles** to enforce enterprise securit
 6. **Closure:** Documented the technical steps in the Jira internal notes and resolved the ticket within SLA limits.
 
 ![Capstone End-to-End Proof](screenshots/capstone-onboarding.png)
-***Figure 27: The completed pipeline—Local AD identity synced to M365, licensed, and ticket resolved.***
+***Figure 33: The completed pipeline—Local AD identity synced to M365, licensed, and ticket resolved.***
 
 ---
 
