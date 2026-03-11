@@ -10,14 +10,14 @@
 
 Welcome to my technical portfolio. This repository serves as documented proof of my hands-on proficiency in enterprise IT support, bridging the gap between my formal Cybersecurity education and real-world Service Desk operations.
 
-To demonstrate readiness for modern IT roles, I engineered a comprehensive **Enterprise Home Lab**. This hybrid environment simulates the daily responsibilities of a Service Desk Analyst: from resolving complex end-user incidents and managing identity lifecycles (IAM) to enforcing endpoint security and administering hybrid cloud identities across **Microsoft 365** and **Google Workspace**.
+To demonstrate readiness for modern IT roles, I engineered a comprehensive **Enterprise Home Lab**. This hybrid environment simulates the daily responsibilities of a Service Desk Analyst: from resolving complex end-user incidents and managing identity lifecycles (IAM) to enforcing endpoint security and administering hybrid cloud identities across **Microsoft 365**, **Intune**, and **Google Workspace**.
 
 ### 🛠️ Tech Stack & Tools
 * **Infrastructure:** Windows Server 2022, Windows 11 Pro, Oracle VirtualBox
 * **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Google Workspace, Microsoft Entra ID
-* **Network Services:** DHCP, DNS (Forwarders/Reverse), MX/SPF/DMARC Records, WDS (PXE Boot)
-* **ITSM & RMM:** Jira Service Management, Action1 RMM
-* **Security:** Group Policy (GPO), NTFS/RBAC, PowerShell Automation, MFA Management
+* **Endpoint Management:** Microsoft Intune (MDM), Action1 RMM, WDS (PXE Boot)
+* **Network & Security:** DHCP, DNS, MX/SPF/DMARC, Group Policy (GPO), NTFS/RBAC
+* **ITSM & Automation:** Jira Service Management, Microsoft Teams ChatOps, PowerShell
 
 ---
 
@@ -156,19 +156,11 @@ To demonstrate readiness for modern IT roles, I engineered a comprehensive **Ent
 ### 10.1 Ticket: MFA Reset (Entra ID)
 > Resolved a user lockout by navigating to Entra ID Authentication Methods, executing **Require re-register MFA**, and revoking active sessions to secure the account during device transition.
 
-![MFA Reset](screenshots/ticket-mfa-reset.png)
-
 ### 10.2 Ticket: Secure Offboarding (Mailbox Conversion)
 > Disabled account in AD and forced a Delta Sync. Converted the user inbox to a **Shared Mailbox** to retain business data while reclaiming the paid license.
 
-![Sign-in Blocked](screenshots/Off-boarding-neil.png)
-![Mailbox Converted](screenshots/ticket-offboarding.png)
-![Shared Mailbox Config](screenshots/off-boarding-neil-shared-mail.png)
-
 ### 10.3 Ticket: Data Recovery (OneDrive)
 > Recovered permanently deleted files by accessing the hidden **Second-Stage Recycle Bin** in the SharePoint site collection.
-
-![OneDrive Recovery](screenshots/ticket-onedrive-recovery.png)
 
 ---
 
@@ -187,6 +179,23 @@ To demonstrate readiness for modern IT roles, I engineered a comprehensive **Ent
 > Engineered **Google Groups** (`execs@...`) to act as centralized security boundaries for Role-Based Access Control (RBAC). Administered organizational access policies and enforced restricted sharing permissions on sensitive data.
 
 ![GWS Group Membership](screenshots/gws-admin-console-groups.png)
+
+---
+
+## 📱 Section 12: Modern Endpoint Management (Microsoft Intune / MDM)
+*Implementing Zero-Touch deployment and remote policy enforcement for a distributed workforce.*
+
+### 12.1 MDM Enrollment & Entra ID Join
+> Orchestrated the transition from legacy Domain Join to **Microsoft Entra ID Join**. Successfully enrolled Windows 11 endpoints into **Microsoft Intune**, enabling over-the-air (OTA) management without requiring a VPN or local Domain Controller line-of-sight.
+
+### 12.2 Configuration Profiles & Compliance
+> Engineered and deployed **Configuration Profiles** to enforce enterprise security baselines, including automated screen-lock timers and alphanumeric password complexity, mapped directly to Zero Trust architecture principles.
+
+### 12.3 Remote Software Asset Management
+> Utilized Intune to architect a standardized software suite deployment (Microsoft 365 Apps), ensuring all remote assets remain compliant and equipped with necessary productivity tools automatically upon user sign-in.
+
+![Intune Device Management](screenshots/intune-enrolled-devices.png)
+![Intune Policy Enforcement](screenshots/intune-policy-applied.png)
 
 ---
 
