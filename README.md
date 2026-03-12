@@ -16,11 +16,25 @@ To demonstrate readiness for modern Systems Administration and IT Support roles,
 
 * **Identity & Cloud:** Active Directory (AD DS), Microsoft 365, Google Workspace, Microsoft Entra ID
 
-* **Endpoint Management:** Microsoft Intune (MDM), Action1 RMM, WDS (PXE Boot)
+* **Endpoint Management:** Microsoft Intune (MDM), Action1 RMM, WDS (PXE Boot), **Autopilot Reset**
 
 * **Network & Security:** DHCP, DNS, MX/SPF/DMARC, Group Policy (GPO), NTFS/RBAC
 
-* **ITSM & Automation:** Jira Service Management, Microsoft Teams ChatOps, PowerShell
+* **ITSM & Automation:** Jira Service Management, Microsoft Teams ChatOps, PowerShell (Bulk Provisioning)
+
+* **Data Governance:** SharePoint Online, OneDrive, Intune Settings Catalog (Auto-Mounting)
+
+### 🏆 Core Competencies & Lab Achievements
+
+* **Identity & Access Management (IAM):** Provisioned and managed user lifecycles across on-premise Active Directory and Entra ID (Azure AD), including automated bulk onboarding via PowerShell and RBAC enforcement.
+
+* **Modern Device Lifecycle:** Orchestrated bare-metal OS deployments using WDS (PXE Boot) and executed Zero-Touch cloud-native device sanitization via Microsoft Intune Autopilot Reset.
+
+* **Cloud Architecture & Data Governance:** Migrated legacy local file shares to SharePoint Online, utilizing Intune MDM configuration profiles to automatically mount secure cloud vaults to remote Windows 11 endpoints without VPNs.
+
+* **Enterprise Security Hardening:** Enforced Zero Trust principles by configuring Conditional Access policies (Geofencing), managing MFA resets, deploying BitLocker via GPO, and mitigating vulnerabilities using Action1 RMM.
+
+* **ITSM & Incident Response:** Managed a high-volume, SLA-driven service desk in Jira, resolving complex Tier 1/Tier 2 break-fix requests (Account Lockouts, M365 Mailbox Conversions, OneDrive Data Recovery, and Mail Flow traces).
 
 ## 🏗️ Section 0: Infrastructure Implementation
 
@@ -301,8 +315,7 @@ Tested successful cloud routing and utilized Exchange Admin Center Message Trace
 * **Resolution:** Generated an administrative access link to the user's OneDrive environment and successfully recovered the hard-deleted files directly from the hidden **Second-Stage Recycle Bin**.
 
 ![OneDrive Recovery Ticket](screenshots/ticket-onedrive-recovery.png)
-![Second-Stage Recycle Bin](screenshots/onedrive-second-stage-recycle-bin.png)
-***Figure 28: Logging the ticket and recovering data from the hidden Second-Stage Recycle Bin.***
+***Figure 28: Logging the ticket and executing OneDrive administrative recovery workflow.***
 
 ## ☁️ Section 11: Cloud SaaS Administration (Google Workspace)
 
@@ -340,11 +353,40 @@ Engineered and deployed **Configuration Profiles** to enforce enterprise securit
 ![Intune Policy Enforcement](screenshots/intune-policy-applied.png)
 ***Figure 32: Intune successfully pushing configuration profiles to the client device.***
 
-## 🎓 Section 13: Capstone - End-to-End Employee Onboarding
+## ☁️ Section 13: Cloud Data Governance (SharePoint & Intune)
+
+*Modernizing legacy file infrastructure by migrating data to SharePoint Online and mapping it to remote workers without a VPN.*
+
+### 13.1 Secure Cloud Vault Creation
+
+Provisioned a restricted SharePoint Team Site (`Finance Secure`) and enforced external sharing protocols to prevent data leakage. Extracted the Tenant and Library IDs necessary for MDM payload deployment.
+
+### 13.2 Zero-Touch File Mapping (Settings Catalog)
+
+Engineered an Intune Configuration Profile leveraging the OneDrive administrative template to silently **auto-mount the SharePoint document library**. Targeted the policy specifically to the `Finance_Access` Entra ID security group to enforce Role-Based Access Control on the client side.
+
+### 13.3 Client-Side Verification
+
+Validated the successful payload delivery and Microsoft 8-hour timer bypass, resulting in the restricted Finance folder mapping natively inside the remote user's Windows 11 File Explorer.
+
+![SharePoint Intune Auto-Mount](screenshots/sharepoint-intune-automount.png)
+***Figure 33: The secure SharePoint library automatically pushed and mounted directly inside File Explorer via Intune.***
+
+## 🔄 Section 14: Zero-Touch Recovery (Intune Autopilot Reset)
+
+*Leveraging cloud-native management to remotely re-image and sanitize endpoints for employee transitions or incident recovery.*
+
+### 14.1 Remote Device Sanitization & Re-provisioning
+
+Executed a **Microsoft Autopilot Reset** from the Intune Admin Center to remotely sanitize a Windows 11 endpoint. Verified the successful automated re-provisioning of the workstation back to a pristine, corporate-ready state while maintaining the device's Entra ID join-status and security policies.
+
+*(Lab execution verified via Intune Audit Logs)*
+
+## 🎓 Section 15: Capstone - End-to-End Employee Onboarding
 
 *Executing a complete, enterprise-grade onboarding process by unifying ITSM, AD DS, Entra ID, M365, and Intune into a single operational pipeline.*
 
-### 13.1 The Workflow Execution
+### 15.1 The Workflow Execution
 
 1. **Intake:** Generated a New Hire Request in Jira Service Management for 'Jennifer Belita'.
 
@@ -359,7 +401,7 @@ Engineered and deployed **Configuration Profiles** to enforce enterprise securit
 6. **Closure:** Documented the technical steps in the Jira internal notes and resolved the ticket within SLA limits.
 
 ![Capstone End-to-End Proof](screenshots/capstone-onboarding.png)
-***Figure 33: The completed pipeline—Local AD identity synced to M365, licensed, and ticket resolved.***
+***Figure 35: The completed pipeline—Local AD identity synced to M365, licensed, and ticket resolved.***
 
 ## 📜 Education & Certifications
 
