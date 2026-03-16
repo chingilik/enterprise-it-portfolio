@@ -4,6 +4,14 @@
 
 **Location:** Calgary, AB | **Email:** johnalbertbelita@gmail.com
 
+> 🚨 **PORTFOLIO DIRECTORY:** For a more streamlined review experience, the core components of this enterprise lab have been separated into two specialized repositories. Please select the portfolio most relevant to the role you are evaluating:
+> 
+> 🏗️ **[1. Hybrid Enterprise Infrastructure (The "Build")](https://github.com/chingilik/hybrid-enterprise-infrastructure)**
+> *For Systems Administration roles. Documents the architecture, automated deployment (WDS/Intune), and security hardening of the hybrid cloud environment.*
+> 
+> 🚒 **[2. Enterprise Incident Management (The "Support")](https://github.com/chingilik/enterprise-incident-management)**
+> *For Service Desk & MSP Support roles. Documents Tier 1/Tier 2 incident resolution, Jira ITSM workflows, SLAs, and Action1 RMM patch management.*
+
 ## 🚀 Project Overview
 
 Welcome to my technical portfolio. This repository serves as documented proof of my hands-on proficiency in enterprise IT support, bridging the gap between my formal Cybersecurity education and real-world Service Desk operations.
